@@ -43,7 +43,7 @@ Function.prototype.myBind = function () {
   let context = arguments[0];
   let args = Array.from(arguments).slice(1);
   let that = this;
-  
+
   return function() {
     let args2 = Array.from(arguments);
     that.apply(context, args.concat(args2));
@@ -57,7 +57,7 @@ Function.prototype.myBind = function () {
 Function.prototype.myBetterBind = function (...args) {
   let context = args[0];
   let otherArgs = args.slice(1);
-  
+
   return (...args2) => {
     this.apply(context, otherArgs.concat(args2));
   };
@@ -67,6 +67,69 @@ Function.prototype.myBetterBind = function (...args) {
 // markov.says.myBetterBind(pavlov, "meow")("Markov");
 
 
-//CurriedSum
+//curriedSum
+
+function curriedSum(numArgs) {
+  let numbers = [];
+  
+  return function _curriedSum(n) {
+    numbers.push(n);
+    while (numbers.length < numArgs) {
+      return _curriedSum;
+    } 
+    
+    let sum = 0;
+    numbers.forEach( (el) => sum += el );
+    numbers = [];
+    return sum;
+  };
+}
+
+// monkey curry with arguments
+Function.prototype.curry = function (numArgs) {
+  let numbers = [];
+  let parentFunction = this;
+
+  return function _curry(n) {
+    numbers.push(n);
+    while (numbers.length < numArgs) {
+      return _curry;
+    }
+    let context = numbers[0];
+    return parentFunction.apply(context, numbers);
+  };
+};
+
+//monkey curry with spread operator
+Function.prototype.spreadCurry = function (numArgs) {
+  let numbers = [];
+  let parentFunction = this;
+  
+  return function _curry(n) {
+    numbers.push(n);
+    while (numbers.length < numArgs) {
+      return _curry;
+    }
+    let context = numbers[0];
+    return parentFunction.call(context, ...numbers);
+  };
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
