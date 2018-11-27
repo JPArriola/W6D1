@@ -95,8 +95,8 @@ Function.prototype.curry = function (numArgs) {
     while (numbers.length < numArgs) {
       return _curry;
     }
-    let context = numbers[0];
-    return parentFunction.apply(context, numbers);
+    // let context = numbers[0];
+    return parentFunction.apply(null, numbers);
   };
 };
 
@@ -105,13 +105,12 @@ Function.prototype.spreadCurry = function (numArgs) {
   let numbers = [];
   let parentFunction = this;
   
-  return function _curry(n) {
+  return function _curry (n) {
     numbers.push(n);
     while (numbers.length < numArgs) {
       return _curry;
     }
-    let context = numbers[0];
-    return parentFunction.call(context, ...numbers);
+    return parentFunction(...numbers);
   };
 };
 
